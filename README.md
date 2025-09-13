@@ -13,8 +13,7 @@ Built with:
 
 ## ⚙️ Getting Started
 
-To view or rebuild this project in your own style.
-
-1. Clone the project in your VS Code editor
-2. `npm i` to install dependencies
-3. `npm run dev` to view your project server
+1. Clone the repository
+2. Install dependencies: npm install
+3. Start the development server: npm run dev
+4. Open http://localhost:5173 in your browser
