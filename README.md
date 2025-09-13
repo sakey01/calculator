@@ -9,7 +9,7 @@ Built with:
 - `React`
 - `Vite`
 - `Typescript`
-- `Tailwind CSS `
+- `Tailwind CSS`
 
 ## ⚙️ Getting Started
 
