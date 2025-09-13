@@ -3,14 +3,23 @@ import Button from "./components/button";
 
 export default function App() {
   const [res, setRes] = useState<string>("");
+  const [isCalc, setIsCalc] = useState<boolean>(false);
 
+  // Evaluates expression
   const calculate = () => {
     try {
       if (res !== "Error") setRes(eval(res).toString());
+      setIsCalc(true);
     } catch {
       if (res.length === 0) return;
       setRes("Error");
     }
+  };
+
+  const noRepeatOperator = (value: string, operator: string) => {
+    if (/[+*/.-]$/.test(value)) return value;
+
+    return value + operator;
   };
 
   return (
@@ -20,33 +29,66 @@ export default function App() {
           {res || "0"}
         </div>
         <section className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
+          {/* Number list */}
           {Array.from({ length: 10 }, (_, num) => (
             <Button
               key={num}
               onClick={() => {
+                if (isCalc) setRes("");
+                setIsCalc(false);
                 if (res === "0" && num === 0) return;
                 if (res === "0") setRes("");
 
                 setRes((prev) => prev + num.toString());
               }}
             >
-              {num.toString()}
+              {num}
             </Button>
           ))}
           {/* Add */}
-          <Button onClick={() => setRes((prev) => prev + "+")}>+</Button>
+          <Button
+            onClick={() => {
+              if (res.length !== 0) setRes((prev) => noRepeatOperator(prev, "+"));
+            }}
+          >
+            +
+          </Button>
 
           {/* Minus */}
-          <Button onClick={() => setRes((prev) => prev + "-")}>-</Button>
+          <Button
+            onClick={() => {
+              setRes((prev) => noRepeatOperator(prev, "-"));
+            }}
+          >
+            -
+          </Button>
 
           {/* Multiply */}
-          <Button onClick={() => setRes((prev) => prev + "*")}>x</Button>
+          <Button
+            onClick={() => {
+              if (res.length !== 0) setRes((prev) => noRepeatOperator(prev, "*"));
+            }}
+          >
+            x
+          </Button>
 
           {/* Divide */}
-          <Button onClick={() => setRes((prev) => prev + "/")}>/</Button>
+          <Button
+            onClick={() => {
+              if (res.length !== 0) setRes((prev) => noRepeatOperator(prev, "/"));
+            }}
+          >
+            /
+          </Button>
 
           {/* Period */}
-          <Button onClick={() => setRes((prev) => prev + ".")}>.</Button>
+          <Button
+            onClick={() => {
+             setRes((prev) => noRepeatOperator(prev, "."));
+            }}
+          >
+            .
+          </Button>
 
           {/* Equal */}
           <Button onClick={calculate} className="bg-blue-800">
